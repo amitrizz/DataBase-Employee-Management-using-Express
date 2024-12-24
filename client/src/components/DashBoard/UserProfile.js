@@ -4,7 +4,7 @@ import logo from '../images/img1.png';
 import axios from "axios"
 import Navbar from '../Navbar';
 import "../DashBoardCSS/UserProfile.css"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function UserProfile() {
     const [loading,setLoading] = useState(false);
@@ -14,6 +14,7 @@ function UserProfile() {
     const [avgSalary, setAvgSalary] = useState(0);
     const [avgDepartmentSalary, setAvgDepartmentSalary] = useState(0);
     const [noOfEmployee, setNoOfEmployee] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -44,6 +45,8 @@ function UserProfile() {
         if (tokenvalue) {
             setLoading(true);
             fetchData();
+        }else{
+            navigate("/login");
         }
 
 
