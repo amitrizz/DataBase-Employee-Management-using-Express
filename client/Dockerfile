@@ -1,5 +1,5 @@
 # Use a Node.js image
-FROM node:16
+FROM node
 
 # Set the working directory
 WORKDIR /frontend

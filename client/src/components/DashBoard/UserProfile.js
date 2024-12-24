@@ -7,7 +7,8 @@ import "../DashBoardCSS/UserProfile.css"
 import { Link } from 'react-router-dom';
 
 function UserProfile() {
-    const token = localStorage.getItem('token');
+    const [loading,setLoading] = useState(false);
+    const token = localStorage.getItem("token");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [avgSalary, setAvgSalary] = useState(0);
@@ -15,6 +16,8 @@ function UserProfile() {
     const [noOfEmployee, setNoOfEmployee] = useState(0);
 
     useEffect(() => {
+
+
         const fetchData = async () => {
             try {
                 const headers = {
@@ -22,6 +25,7 @@ function UserProfile() {
                     'Content-Type': 'application/json'
                     // Add any other headers you need
                 };
+
 
                 // Send the request with the configured headers
                 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/logged-user`, { headers: headers });
@@ -36,8 +40,14 @@ function UserProfile() {
                 console.error('Error fetching data:', error);
             }
         };
+        const tokenvalue = localStorage.getItem('token');
+        if (tokenvalue) {
+            setLoading(true);
+            fetchData();
+        }
 
-        fetchData();
+
+
         // handleSelectChange();
     }, []);
     // State to store the selected value
@@ -72,7 +82,7 @@ function UserProfile() {
     };
     return (
         <>
-            {token ? (
+            {loading && (
                 <div className='UserProfile'>
                     <Navbar className="navbar" />
                     <div className='sidebar'>
@@ -108,10 +118,6 @@ function UserProfile() {
                             </div>
                         </div>
                     </div>
-                </div>
-            ) : (
-                <div>Login To Profile
-                    <Link to={"/login"}>Click Here</Link>
                 </div>
             )}
         </>
